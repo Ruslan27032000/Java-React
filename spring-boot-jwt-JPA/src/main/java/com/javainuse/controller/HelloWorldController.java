@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RequestMapping(value = "/api")
 public class HelloWorldController {
 
@@ -94,7 +94,7 @@ public class HelloWorldController {
 
 
     @GetMapping(value = "/search")
-    public ResponseEntity<?> searchItemByName(HttpServletRequest request,@RequestParam(name = "name", defaultValue = "") String name) {
+    public ResponseEntity<?> searchItemByName(HttpServletRequest request, @RequestParam(name = "name", defaultValue = "") String name) {
         final String requestTokenHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;

@@ -1,5 +1,6 @@
 import {types} from "./types";
-import axios from "axios";
+import japi from "../services/axios";
+
 
 export class Actions {
     getItems() {
@@ -7,7 +8,7 @@ export class Actions {
             dispatch({
                 type: types.GET_ITEMS_PENDING
             })
-            axios.get(`http://localhost:8000/api/allItems`)
+            japi.get(`/api/allItems`)
                 .then((res) => {
                     dispatch({
                         type: types.GET_ITEMS_SUCCESS,
@@ -22,7 +23,7 @@ export class Actions {
             dispatch({
                 type: types.GET_ITEMS_DESC_PENDING
             })
-            axios.get(`http://localhost:8000/api/getDesc/${id}`)
+            japi.get(`/api/getDesc/${id}`)
                 .then((res) => {
                     dispatch({
                         type: types.GET_ITEMS_DESC_SUCCESS,
@@ -35,7 +36,7 @@ export class Actions {
 
     addItem(name) {
         return (dispatch) => {
-            axios.post(`http://localhost:8000/api/addItem`, {name})
+            japi.post(`/api/addItem`, {name})
                 .then((res) => {
                     dispatch({
                         type: types.ADD_ITEM,
@@ -46,17 +47,15 @@ export class Actions {
     }
 
     saveItem(item) {
-        return (dispatch) => [
-            dispatch({
-                type: types.SAVE_ITEM,
-                payload: item
-            })
-        ]
+        return {
+            type: types.SAVE_ITEM,
+            payload: item
+        }
     }
 
-    addTask(taskText,items) {
+    addTask(taskText, items) {
         return (dispatch) => {
-            axios.post(`http://localhost:8000/api/addItemDesc`, {taskText, done: false,items})
+            japi.post(`/api/addItemDesc`, {taskText, done: false, items})
                 .then((res) => {
                     dispatch({
                         type: types.ADD_TASK,
@@ -66,26 +65,26 @@ export class Actions {
         }
     }
 
-    deleteTask(id){
-        return(dispatch)=>{
-            axios.delete(`http://localhost:8000/api/deleteItem/${id}`)
-                .then((res)=>{
+    deleteTask(id) {
+        return (dispatch) => {
+            japi.delete(`/api/deleteItem/${id}`)
+                .then((res) => {
                     dispatch({
-                        type:types.DELETE_TASK,
-                        payload:id
+                        type: types.DELETE_TASK,
+                        payload: id
                     })
                 })
         }
     }
 
-    searchTask(name){
-        return(dispatch)=>{
-            axios.get(`http://localhost:8000/api/search?name=${name}`)
-                .then(res=>{
+    searchTask(name) {
+        return (dispatch) => {
+            japi.get(`/api/search?name=${name}`)
+                .then(res => {
                     console.log(res.data)
                     dispatch({
-                        type:types.SEARCH_TASK,
-                        payload:res.data
+                        type: types.SEARCH_TASK,
+                        payload: res.data
                     })
                 })
         }
