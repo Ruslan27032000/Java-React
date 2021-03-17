@@ -19,14 +19,15 @@ function App() {
     const [searchText, setSearchText] = useState("")
     const history = useHistory()
 
-    useEffect(()=>{
-        if(!isLogin){
-            history.push("/auth")
-        }
-    },[isLogin])
 
     useEffect(() => {
-        if(isLogin){
+        if (!isLogin) {
+            history.push("/auth")
+        }
+    }, [isLogin])
+
+    useEffect(() => {
+        if (isLogin) {
             dispatch(new Actions().getItems())
         }
     }, [])
