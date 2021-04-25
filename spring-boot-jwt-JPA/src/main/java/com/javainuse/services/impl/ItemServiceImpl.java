@@ -56,4 +56,9 @@ public class ItemServiceImpl implements ItemService {
     public List<Items> searchItem(String name) {
         return itemRepository.findByName(name);
     }
+
+    @Override
+    public List<ItemsDesc> getALlDesc() {
+        return itemDescRepository.findAll();
+    }
 }

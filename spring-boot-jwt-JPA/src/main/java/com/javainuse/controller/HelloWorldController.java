@@ -125,4 +125,10 @@ public class HelloWorldController {
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
+    @GetMapping(value="/allDescs")
+    public ResponseEntity<?> getAllDesc(){
+        List<ItemsDesc> items = itemService.getALlDesc();
+        return new ResponseEntity<>(items, HttpStatus.OK);
+    }
+
 }

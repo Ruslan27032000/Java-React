@@ -8,85 +8,68 @@ import debounce from "./tools/debounce";
 import NavBar from "./components/NavBar/Navbar";
 import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
-
+import data from "./data.json";
+import Board from "react-trello";
 
 function App() {
 
-    const dispatch = useDispatch()
-    const {items} = useSelector(state => state.reducer)
-    const {isLogin} = useSelector(state => state.authReducer)
-    const [taskText, setTaskText] = useState("")
-    const [searchText, setSearchText] = useState("")
-    const history = useHistory()
+	const dispatch = useDispatch()
+	const {items} = useSelector(state => state.reducer)
+	const {isLogin} = useSelector(state => state.authReducer)
+	const [taskText, setTaskText] = useState("")
+	const [searchText, setSearchText] = useState("")
+	const history = useHistory()
 
 
-    useEffect(() => {
-        if (!isLogin) {
-            history.push("/auth")
-        }
-    }, [isLogin])
+	useEffect(() => {
+		if (!isLogin) {
+			history.push("/auth")
+		}
+	}, [isLogin])
 
-    useEffect(() => {
-        if (isLogin) {
-            dispatch(new Actions().getItems())
-        }
-    }, [])
-
-
-    const addTask = () => {
-        setTaskText("")
-        dispatch(new Actions().addItem(taskText))
-    }
+	useEffect(() => {
+		if (isLogin) {
+			dispatch(new Actions().getItems())
+		}
+	}, [])
 
 
-    const searchTask = (text) => {
-        setSearchText(text)
-        debounce(() => dispatch(new Actions().searchTask(text)), 700)
-    }
-
-    return (
-        <>
-            <NavBar/>
-            <div style={{padding: '40px 0'}}>
+	const addTask = () => {
+		setTaskText("")
+		dispatch(new Actions().addItem(taskText))
+	}
 
 
-                <Switch>
-                    <Route exact path={"/"} render={() =>
-                        <div className={styles.container}>
-                            <div className={styles.addCard}>
-                                <input
-                                    value={taskText}
-                                    onChange={(e) => setTaskText(e.target.value)}
-                                />
-                                <button onClick={addTask}>Add</button>
-                            </div>
-                            <div className={styles.addCard}>
-                                <input
-                                    value={searchText}
-                                    onChange={(e) => searchTask(e.target.value)}
-                                />
-                            </div>
+	const searchTask = (text) => {
+		setSearchText(text)
+		debounce(() => dispatch(new Actions().searchTask(text)), 700)
+	}
 
-                            <div className={styles.cardsContainer}>
-                                {items.length ? items.map((item, index) => (
-                                        <div key={index} className={styles.cards} onClick={() => {
-                                            dispatch(new Actions().saveItem(item))
-                                            history.push(`add/${item.id}`)
-                                        }}>
-                                            <p>{item.name}</p>
-                                        </div>
-                                    )) :
-                                    <img src={"https://www.freeiconspng.com/uploads/red-circular-image-error-0.png"}/>
-                                }
-                            </div>
-                        </div>}/>
-                    <Route exact path={"/add/:id"} render={() => <ItemDesc/>}/>
-                    <Route exact path={"/auth"} render={() => <Login/>}/>
-                    <Route exact path={"/reg"} render={() => <Registration/>}/>
-                </Switch>
-            </div>
-        </>
-    );
+
+	return (
+		<>
+			<NavBar/>
+			<Switch>
+				<Route exact path={"/"} render={() =>
+					<Board
+						lang={"ru"}
+						data={data}
+						draggable
+						cardDraggable
+						editable
+						canAddLanes
+						onLaneAdd={e => console.log('lane', e)}
+						onLaneClick={e => console.log('on lane click', e)}
+						onCardAdd={(e => console.log('card', e))}
+						onCardMoveAcrossLanes={e => console.log('card moves', e)}
+						onCardClick={e => console.log('on card click', e)}
+					/>}/>
+				<Route exact path={"/add/:id"} render={() => <ItemDesc/>}/>
+				<Route exact path={"/auth"} render={() => <Login/>}/>
+				<Route exact path={"/reg"} render={() => <Registration/>}/>
+			</Switch>
+		</>
+	);
 }
 
 export default App;

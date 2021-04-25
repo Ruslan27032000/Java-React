@@ -20,5 +20,7 @@ public interface ItemService {
     List<Items> searchItem(String name);
 
 
+    List<ItemsDesc> getALlDesc();
+
 
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="java_authorization@localhost" uuid="2f909cc1-7f30-4085-8393-942269e74681">
+    <data-source source="LOCAL" name="java_project@localhost" uuid="554d7953-b90f-4626-b4c8-0bc57c4bf683">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/java_authorization?useUnicode=true&amp;serverTimeZone=UTC</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/java_project?useUnicode=true&amp;serverTimeZone=UTC</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
