@@ -10,14 +10,14 @@ import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
 import data from "./data.json";
 import Board from "react-trello";
+import { useBeforeunload } from 'react-beforeunload';
 
 function App() {
 
 	const dispatch = useDispatch()
-	const {items} = useSelector(state => state.reducer)
+	const {trello} = useSelector(state => state.reducer)
 	const {isLogin} = useSelector(state => state.authReducer)
-	const [taskText, setTaskText] = useState("")
-	const [searchText, setSearchText] = useState("")
+	const [tempTrello, setTempTrello] = useState(trello)
 	const history = useHistory()
 
 
@@ -29,20 +29,16 @@ function App() {
 
 	useEffect(() => {
 		if (isLogin) {
-			dispatch(new Actions().getItems())
+			dispatch(new Actions().getTrello())
 		}
 	}, [])
 
+	useBeforeunload((event) => {
+		dispatch(new Actions().changeTrello(tempTrello))
+	});
 
-	const addTask = () => {
-		setTaskText("")
-		dispatch(new Actions().addItem(taskText))
-	}
-
-
-	const searchTask = (text) => {
-		setSearchText(text)
-		debounce(() => dispatch(new Actions().searchTask(text)), 700)
+	const onTrelloChange=(e)=>{
+		setTempTrello(e)
 	}
 
 
@@ -53,16 +49,17 @@ function App() {
 				<Route exact path={"/"} render={() =>
 					<Board
 						lang={"ru"}
-						data={data}
+						data={trello}
 						draggable
 						cardDraggable
 						editable
 						canAddLanes
-						onLaneAdd={e => console.log('lane', e)}
-						onLaneClick={e => console.log('on lane click', e)}
-						onCardAdd={(e => console.log('card', e))}
-						onCardMoveAcrossLanes={e => console.log('card moves', e)}
-						onCardClick={e => console.log('on card click', e)}
+						// onLaneAdd={e => console.log('lane', e)}
+						// onLaneClick={e => console.log('on lane click', e)}
+						// onCardAdd={(e => console.log('card', e))}
+						// onCardMoveAcrossLanes={e => console.log('card moves', e)}
+						// onCardClick={e => console.log('on card click', e)}
+						onDataChange={onTrelloChange}
 					/>}/>
 				<Route exact path={"/add/:id"} render={() => <ItemDesc/>}/>
 				<Route exact path={"/auth"} render={() => <Login/>}/>
