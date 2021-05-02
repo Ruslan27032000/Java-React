@@ -6,14 +6,7 @@ import {LoginAction} from "../../redux/Auth/AuthActions";
 export default function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const {isLogin} = useSelector(state => state.authReducer)
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        if (isLogin) {
-
-        }
-    }, [])
 
     const onLogin = () => {
         dispatch(LoginAction.onLogin(email, password))

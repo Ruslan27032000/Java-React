@@ -1,15 +1,22 @@
 import {types} from "./types";
 import japi from "../services/axios";
+import {convertDate} from "../tools/convertDate";
 
 
 export class Actions {
 
-	getTrello() {
+	postLogs(type, action) {
 		return (dispatch) => {
-			japi.get('/trello/all')
+			const payload = {
+				type,
+				action,
+				createDate: new Date()
+			}
+			japi.post('/trello/createLog', payload)
 				.then((res) => {
+					console.log(res.data)
 					dispatch({
-						type: types.GET_TRELLO,
+						type: types.POST_LOGS,
 						payload: res.data
 					})
 				})
@@ -17,12 +24,50 @@ export class Actions {
 	}
 
 
-	changeTrello(payload){
-		return(dispatch)=>{
-			japi.post('/trello/change',[...payload.lanes])
-				.then(res=>{
+	getLogs() {
+		return (dispatch) => {
+			japi.get('/trello/allLogs')
+				.then((res) => {
+					let data = []
+					for (let i in res.data) {
+						data.push({...res.data[i], key: i, createDate: convertDate(res.data[i].createDate)})
+					}
 					dispatch({
-						type:types.CHANGE_TRELLO
+						type: types.GET_LOGS,
+						payload: data
+					})
+				})
+		}
+	}
+
+	getTrello() {
+		return (dispatch) => {
+			japi.get('/trello/all')
+				.then((res) => {
+					let data = res.data
+					for (let i in data) {
+						for (let j in data[i].cards) {
+							if (!data[i].cards[j].description) {
+								data[i].cards[j].description = ""
+							}
+						}
+					}
+					console.log(data)
+					dispatch({
+						type: types.GET_TRELLO,
+						payload: data.sort((a, b) => b.cards.length - a.cards.length)
+					})
+				})
+		}
+	}
+
+
+	changeTrello(payload) {
+		return (dispatch) => {
+			japi.post('/trello/change', [...payload.lanes])
+				.then(res => {
+					dispatch({
+						type: types.CHANGE_TRELLO
 					})
 				})
 		}

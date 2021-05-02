@@ -7,13 +7,20 @@ const initialState = {
 	itemsStatus: '',
 	itemsDescStatus: '',
 	trello: {
-		lanes:[]
-	}
+		lanes: []
+	},
+	logs: []
 }
 
 
 export const reducer = (state = initialState, action) => {
 	switch (action.type) {
+
+		case types.GET_LOGS:
+			return {
+				...state,
+				logs: action.payload
+			}
 
 		case types.GET_TRELLO:
 			return {

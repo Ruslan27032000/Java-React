@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Data
 public class CardsModel {
 
-    @Id
+
     @Column(name = "lane_id")
     public String laneId;
 
@@ -22,7 +22,8 @@ public class CardsModel {
     @Column(name = "description")
     public String description;
 
-    @Column(name = "id", length = 3000)
+    @Id
+    @Column(name = "id")
     public String id;
 
 }

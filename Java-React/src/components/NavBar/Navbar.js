@@ -16,6 +16,7 @@ export default function NavBar() {
             {isLogin ?
                 <>
                     <li><NavLink exact to={"/"} activeClassName={styles.activeLink}>Home</NavLink></li>
+                    <li><NavLink exact to={"/logs"} activeClassName={styles.activeLink}>Logs</NavLink></li>
                     <li><a onClick={logOut} style={{cursor:"pointer"}}>Log Out</a></li>
                 </>
                 :

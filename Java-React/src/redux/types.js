@@ -16,7 +16,9 @@ export const types = {
 	SEARCH_TASK: "SEARCH_TASK",
 
 	GET_TRELLO: "GET_TRELLO",
-	CHANGE_TRELLO: "CHANGE_TRELLO"
+	CHANGE_TRELLO: "CHANGE_TRELLO",
+	GET_LOGS:"GET_LOGS",
+	POST_LOGS:"POST_LOGS"
 }
 
 export const globalTypes = {

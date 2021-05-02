@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -22,7 +25,9 @@ public class LanesController {
     private CardRepository cardRepository;
 
     @PostMapping(value = "/change")
-    public ResponseEntity<?> changeItems(@RequestBody ArrayList<LanesModel> lanes) {
+    public ResponseEntity<?> changeItems(@RequestBody List<LanesModel> lanes) {
+        cardRepository.deleteAll();
+        lanesRepository.deleteAll();
         for (int i = 0; i < lanes.size(); i++) {
             if (lanes.get(i).getCards().size() != 0) {
                 for (int j = 0; j < lanes.get(i).getCards().size(); j++) {
@@ -36,7 +41,7 @@ public class LanesController {
 
     @GetMapping(value = "/all")
     public ResponseEntity<?> getAll() {
-        ArrayList<LanesModel> lanes = (ArrayList<LanesModel>) lanesRepository.findAll();
+        List<LanesModel> lanes = lanesRepository.findAll();
         return new ResponseEntity<>(lanes, HttpStatus.OK);
     }
 }
