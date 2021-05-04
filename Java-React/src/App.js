@@ -40,7 +40,7 @@ function App() {
 	}
 
 	const onLaneDelete = (e) => {
-		dispatch(new Actions().postLogs("Delete Board", `Board was deleted`))
+		dispatch(new Actions().postLogs("Delete Tab", `Board was deleted`))
 	}
 
 	const onCardAdd = (e) => {
@@ -76,7 +76,8 @@ function App() {
 				/>}/>
 			<Route exact path={"/logs"} component={LogsPage}/>
 			<Route exact path={"/add/:id"} component={ItemDesc}/>
-			<Route exact path={"/auth"} component={Registration}/>
+			<Route exact path={"/auth"} component={Login}/>
+			<Route exact path={"/reg"} component={Registration}/>
 		</>
 	);
 }
